@@ -17,7 +17,7 @@
     BOOL _previousNavBarHidden;
 }
 
-@property (nonatomic, strong) UICollectionView *browserCollectionView;
+@property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) UIButton *checkButton;
 @property (nonatomic, strong) AGIPCBadgeDoneButton *badgeDoneButton;
@@ -58,7 +58,7 @@
     }
     [self setNavBarAppearance:animated];
     
-    [self.browserCollectionView setContentOffset:CGPointMake(self.browserCollectionView.frame.size.width * self.currentIndex,0)];
+    [self.collectionView setContentOffset:CGPointMake(self.collectionView.frame.size.width * self.currentIndex,0)];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -85,11 +85,40 @@
     [super viewDidDisappear:animated];
 }
 
+- (void)viewWillLayoutSubviews {
+    CGFloat height = 44;
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        height = 32;
+    }
+    self.toolbar.frame = CGRectMake(0, self.view.bounds.size.height - height, self.view.bounds.size.width, height);
+    
+    [self.collectionView.collectionViewLayout invalidateLayout];
+    self.collectionView.frame = CGRectMake(-10, 0, self.view.bounds.size.width + 20, self.view.bounds.size.height);
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    layout.itemSize = self.collectionView.bounds.size;
+    
+    NSUInteger index = _currentIndex;
+    [self.collectionView reloadData];
+    self.collectionView.contentOffset = CGPointMake(self.collectionView.bounds.size.width * index, 0);
+    
+    [self setNeedsStatusBarAppearanceUpdate];
+    
+    self.navigationController.navigationBar.alpha = _toolbar.alpha;
+    
+    [super viewWillLayoutSubviews];
+}
+
+- (void)viewDidLayoutSubviews {
+    self.navigationController.navigationBar.alpha = _toolbar.alpha;
+    
+    [super viewDidLayoutSubviews];
+}
+
 #pragma mark - priviate -
 - (void)setupView {
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.clipsToBounds = YES;
-    [self browserCollectionView];
+    [self collectionView];
     [self toolbar];
     [self setupBarButtonItems];
     UIBarButtonItem *rightButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.checkButton];
@@ -175,7 +204,7 @@
     if (_currentIndex >= count) {
         _currentIndex = count - 1;
     }
-    [self.browserCollectionView reloadData];
+    [self.collectionView reloadData];
     [self updateSelestedNumber];
     [self updateNavigationBarAndToolBar];
 }
@@ -203,32 +232,34 @@
 - (UIToolbar *)toolbar {
     if (nil == _toolbar) {
         CGFloat height = 44;
+        if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+            height = 32;
+        }
         _toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - height, self.view.bounds.size.width, height)];
-        _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
         [self.view addSubview:_toolbar];
     }
     return _toolbar;
 }
 
-- (UICollectionView *)browserCollectionView {
-    if (nil == _browserCollectionView) {
+- (UICollectionView *)collectionView {
+    if (nil == _collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.minimumInteritemSpacing = 0;
         layout.minimumLineSpacing = 0;
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         
-        _browserCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(-10, 0, self.view.bounds.size.width+20, self.view.bounds.size.height+1) collectionViewLayout:layout];
-        _browserCollectionView.backgroundColor = [UIColor whiteColor];
-        [_browserCollectionView registerClass:[AGIPCBrowserCell class] forCellWithReuseIdentifier:NSStringFromClass([AGIPCBrowserCell class])];
-        _browserCollectionView.delegate = self;
-        _browserCollectionView.dataSource = self;
-        _browserCollectionView.pagingEnabled = YES;
-        _browserCollectionView.decelerationRate = UIScrollViewDecelerationRateFast;
-        _browserCollectionView.showsHorizontalScrollIndicator = NO;
-        _browserCollectionView.showsVerticalScrollIndicator = NO;
-        [self.view addSubview:_browserCollectionView];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(-10, 0, self.view.bounds.size.width+20, self.view.bounds.size.height) collectionViewLayout:layout];
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        [_collectionView registerClass:[AGIPCBrowserCell class] forCellWithReuseIdentifier:NSStringFromClass([AGIPCBrowserCell class])];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.pagingEnabled = YES;
+        _collectionView.decelerationRate = UIScrollViewDecelerationRateFast;
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        _collectionView.showsVerticalScrollIndicator = NO;
+        [self.view addSubview:_collectionView];
     }
-    return _browserCollectionView;
+    return _collectionView;
 }
 
 - (void)setMaximumNumberOfPhotosToBeSelected:(NSUInteger)maximumNumberOfPhotosToBeSelected {
@@ -250,7 +281,7 @@
 
 #pragma mark - UICollectionViewDelegateFlowLayout -
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.view.bounds.size.width+20, self.view.bounds.size.height);
+    return collectionView.bounds.size;
 }
 
 #pragma mark - AGIPCBrowserCellDelegate -
@@ -261,7 +292,7 @@
 #pragma mark - scrollerViewDelegate -
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     CGFloat offsetX = scrollView.contentOffset.x;
-    CGFloat itemWidth = CGRectGetWidth(self.browserCollectionView.frame);
+    CGFloat itemWidth = CGRectGetWidth(self.collectionView.frame);
     if (offsetX >= 0){
         NSInteger page = offsetX / itemWidth;
         [self didScrollToPage:page];
@@ -278,33 +309,38 @@
     if (nil == self.cachedDataSource || self.cachedDataSource.count == 0) {
         hidden = NO;
     }
-    CGFloat animatonOffset = 20;
-    CGFloat animationDuration = (animated ? 0.35 : 0);
     
-    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-        _statusBarShouldBeHidden = hidden;
-        [UIView animateWithDuration:animationDuration animations:^(void) {
-            [self setNeedsStatusBarAppearanceUpdate];
-        } completion:nil];
+    CGFloat height = 44;
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        height = 32;
     }
     
-    CGRect frame = CGRectIntegral(CGRectMake(0, self.view.bounds.size.height - 44, self.view.bounds.size.width, 44));
+    CGFloat animationDuration = (animated ? 0.35 : 0);
+    
+    _statusBarShouldBeHidden = hidden;
+    
+    CGRect frame = CGRectIntegral(CGRectMake(0, self.view.bounds.size.height - height, self.view.bounds.size.width, height));
     
     if ([self areControlsHidden] && !hidden && animated) {
-        self.toolbar.frame = CGRectOffset(frame, 0, animatonOffset);
+        self.toolbar.frame = CGRectOffset(frame, 0, height/2);
     }
     
     [UIView animateWithDuration:animationDuration animations:^(void) {
+        [self setNeedsStatusBarAppearanceUpdate];
         CGFloat alpha = hidden ? 0 : 1;
         [self.navigationController.navigationBar setAlpha:alpha];
         _toolbar.frame = frame;
-        if (hidden) _toolbar.frame = CGRectOffset(_toolbar.frame, 0, animatonOffset);
+        if (hidden) _toolbar.frame = CGRectOffset(_toolbar.frame, 0, height/2);
         _toolbar.alpha = alpha;
-        _browserCollectionView.backgroundColor = hidden ? [UIColor blackColor] : [UIColor whiteColor];
+        self.collectionView.backgroundColor = hidden ? [UIColor blackColor] : [UIColor whiteColor];
     } completion:nil];
 }
 
 - (BOOL)prefersStatusBarHidden {
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        return YES;
+    }
+    
     return _statusBarShouldBeHidden;
 }
 

@@ -35,11 +35,7 @@
 - (void)prepareForReuse {
     [super prepareForReuse];
     self.photoImageView.image = nil;
-    [self.photoImageView removeFromSuperview];
-    [self.zoomingScrollView removeFromSuperview];
-    self.zoomingScrollView = nil;
-    self.photoImageView = nil;
-    self.assetItem = nil;
+    _assetItem = nil;
 }
 
 #pragma mark - set -
@@ -56,6 +52,8 @@
     self.zoomingScrollView.zoomScale = 1;
     self.zoomingScrollView.contentSize = CGSizeMake(0, 0);
     
+    self.zoomingScrollView.frame = CGRectMake(10, 0, self.frame.size.width-20, self.frame.size.height);
+    
     UIImage *img = [UIImage imageWithCGImage:[[self.assetItem.asset defaultRepresentation] fullScreenImage]];
     self.photoImageView.image = img;
     self.photoImageView.hidden = NO;
@@ -66,7 +64,6 @@
     self.zoomingScrollView.contentSize = photoImageViewFrame.size;
             
     [self setMaxMinZoomScalesForCurrentBounds];
-    [self setNeedsLayout];
 }
 
 
@@ -106,7 +103,7 @@
     if (ABS(boundsAR - imageAR) < 0.17) {
         zoomScale = MAX(xScale, yScale);
         zoomScale = MIN(MAX(self.zoomingScrollView.minimumZoomScale, zoomScale), self.zoomingScrollView.maximumZoomScale);
-        }
+    }
     return zoomScale;
 }
 
@@ -117,8 +114,6 @@
     
     if (_photoImageView.image == nil) return;
     
-    _photoImageView.frame = CGRectMake(0, 0, _photoImageView.frame.size.width, _photoImageView.frame.size.height);
-    
     CGSize boundsSize = self.zoomingScrollView.bounds.size;
     CGSize imageSize = _photoImageView.image.size;
     
@@ -126,7 +121,7 @@
     CGFloat yScale = boundsSize.height / imageSize.height;
     CGFloat minScale = MIN(xScale, yScale);
     
-    CGFloat maxScale = 1.5;
+    CGFloat maxScale = 2;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         maxScale = 4;
     }
@@ -140,14 +135,13 @@
     
     self.zoomingScrollView.zoomScale = [self initialZoomScaleWithMinScale];
     
-    if (self.zoomingScrollView.zoomScale != minScale) {
+    if (self.zoomingScrollView.zoomScale > minScale) {
         self.zoomingScrollView.contentOffset = CGPointMake((imageSize.width * self.zoomingScrollView.zoomScale - boundsSize.width) / 2.0,
                                          (imageSize.height * self.zoomingScrollView.zoomScale - boundsSize.height) / 2.0);
-        self.zoomingScrollView.scrollEnabled = NO;
     }
     
     [self setNeedsLayout];
-    
+    [self layoutIfNeeded];
 }
 
 #pragma mark - Layout -
