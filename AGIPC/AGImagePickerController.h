@@ -77,6 +77,10 @@ shouldShowToolbarForManagingTheSelectionInSelectionMode:(AGImagePickerController
 
 @property (nonatomic, assign) BOOL userIsDenied;
 
+@property (nonatomic, strong) UIImage *checkButtonNormalImage;
+@property (nonatomic, strong) UIImage *checkButtonSelectedImage;
+
+
 + (ALAssetsLibrary *)defaultAssetsLibrary;
 
 + (AGImagePickerController *)sharedInstance:(id)delegate;

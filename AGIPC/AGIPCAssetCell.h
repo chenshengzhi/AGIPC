@@ -26,8 +26,12 @@
 @protocol AGIPCAssetCellDelegate <NSObject>
 
 @required
+
 - (void)assetCell:(AGIPCAssetCell *)cell didSelect:(AGIPCAssetItem *)assetItem;
 
 - (void)assetCell:(AGIPCAssetCell *)cell didDeselect:(AGIPCAssetItem *)assetItem;
+
+@optional
+- (UIImage *)assetCell:(AGIPCAssetCell *)cell checkButtonImageForItem:(AGIPCAssetItem *)assetItem;
 
 @end

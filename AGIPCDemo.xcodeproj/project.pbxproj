@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		247294B71D337F6900FBCF6D /* UIImage+TintColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 247294B61D337F6900FBCF6D /* UIImage+TintColor.m */; };
 		248881E71C083468001C44A6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 248881E61C083468001C44A6 /* main.m */; };
 		248881EA1C083468001C44A6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 248881E91C083468001C44A6 /* AppDelegate.m */; };
 		248881ED1C083468001C44A6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 248881EC1C083468001C44A6 /* ViewController.m */; };
@@ -49,6 +50,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		247294B51D337F6900FBCF6D /* UIImage+TintColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TintColor.h"; sourceTree = "<group>"; };
+		247294B61D337F6900FBCF6D /* UIImage+TintColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TintColor.m"; sourceTree = "<group>"; };
 		248881E21C083468001C44A6 /* AGIPCDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AGIPCDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		248881E61C083468001C44A6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		248881E81C083468001C44A6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -147,6 +150,8 @@
 				248881E91C083468001C44A6 /* AppDelegate.m */,
 				248881EB1C083468001C44A6 /* ViewController.h */,
 				248881EC1C083468001C44A6 /* ViewController.m */,
+				247294B51D337F6900FBCF6D /* UIImage+TintColor.h */,
+				247294B61D337F6900FBCF6D /* UIImage+TintColor.m */,
 				248882401C083664001C44A6 /* AGIPCDemoCell.h */,
 				248882411C083664001C44A6 /* AGIPCDemoCell.m */,
 				248882421C083664001C44A6 /* AGIPCDemoCell.xib */,
@@ -356,6 +361,7 @@
 				249C4BFB1C085794004BE934 /* AGIPCAssetsController.m in Sources */,
 				248881EA1C083468001C44A6 /* AppDelegate.m in Sources */,
 				249C4BFC1C085794004BE934 /* AGIPCBadgeDoneButton.m in Sources */,
+				247294B71D337F6900FBCF6D /* UIImage+TintColor.m in Sources */,
 				248882431C083664001C44A6 /* AGIPCDemoCell.m in Sources */,
 				249C4BF81C085794004BE934 /* AGIPCAlbumsController.m in Sources */,
 				249C4BFE1C085794004BE934 /* AGIPCPhotoBrowser.m in Sources */,

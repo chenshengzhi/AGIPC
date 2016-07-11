@@ -160,6 +160,8 @@
     lastOrientation = self.interfaceOrientation;
     
     AGIPCPhotoBrowser *browser = [[AGIPCPhotoBrowser alloc] initWithDelegate:self currentIndex:indexPath.row];
+    browser.checkButtonNormalImage = self.imagePickerController.checkButtonNormalImage;
+    browser.checkButtonSelectedImage = self.imagePickerController.checkButtonSelectedImage;
     browser.delegate = self;
     [self.navigationController pushViewController:browser animated:YES];
 }
@@ -171,6 +173,14 @@
 
 - (void)assetCell:(AGIPCAssetCell *)cell didDeselect:(AGIPCAssetItem *)assetItem {
     [self deselectItem:assetItem];
+}
+
+- (UIImage *)assetCell:(AGIPCAssetCell *)cell checkButtonImageForItem:(AGIPCAssetItem *)assetItem {
+    if (assetItem.selected) {
+        return self.imagePickerController.checkButtonSelectedImage;
+    } else {
+        return self.imagePickerController.checkButtonNormalImage;
+    }
 }
 
 #pragma mark - AGIPCPhotoBrowserDelegate -

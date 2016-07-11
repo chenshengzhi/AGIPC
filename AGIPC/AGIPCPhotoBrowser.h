@@ -32,6 +32,9 @@
 
 @property (nonatomic) NSUInteger maximumNumberOfPhotosToBeSelected;
 
+@property (nonatomic, strong) UIImage *checkButtonNormalImage;
+@property (nonatomic, strong) UIImage *checkButtonSelectedImage;
+
 - (instancetype)initWithDelegate:(id<AGIPCPhotoBrowserDelegate>)delegate currentIndex:(NSInteger)index;
 
 - (void)reloadData;

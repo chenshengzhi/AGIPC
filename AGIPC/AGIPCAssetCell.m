@@ -43,11 +43,18 @@
 }
 
 - (void)updateCheckButtonDisplay {
-    if (self.item.selected) {
-        [self.checkButton setImage:[UIImage imageNamed:@"AGIPC_check_selected"] forState:UIControlStateNormal];
-    } else {
-        [self.checkButton setImage:[UIImage imageNamed:@"AGIPC_check_default"] forState:UIControlStateNormal];
+    UIImage *image = nil;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(assetCell:checkButtonImageForItem:)]) {
+        image = [self.delegate assetCell:self checkButtonImageForItem:self.item];
     }
+    if (!image) {
+        if (self.item.selected) {
+            image = [UIImage imageNamed:@"AGIPC_check_selected"];
+        } else {
+            image = [UIImage imageNamed:@"AGIPC_check_default"];
+        }
+    }
+    [self.checkButton setImage:image forState:UIControlStateNormal];
 }
 
 - (void)tapCheckMark {

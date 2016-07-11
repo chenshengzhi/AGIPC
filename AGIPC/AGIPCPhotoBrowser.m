@@ -214,8 +214,16 @@
     if (nil == _checkButton) {
         _checkButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _checkButton.frame = CGRectMake(0, 0, 25, 25);
-        [_checkButton setBackgroundImage:[UIImage imageNamed:@"AGIPC_check_selected"] forState:UIControlStateSelected];
-        [_checkButton setBackgroundImage:[UIImage imageNamed:@"AGIPC_check_default"] forState:UIControlStateNormal];
+        if (_checkButtonNormalImage) {
+            [_checkButton setImage:_checkButtonNormalImage forState:UIControlStateNormal];
+        } else {
+            [_checkButton setImage:[UIImage imageNamed:@"AGIPC_check_default"] forState:UIControlStateNormal];
+        }
+        if (_checkButtonSelectedImage) {
+            [_checkButton setImage:_checkButtonSelectedImage forState:UIControlStateSelected];
+        } else {
+            [_checkButton setImage:[UIImage imageNamed:@"AGIPC_check_selected"] forState:UIControlStateSelected];
+        }
         [_checkButton addTarget:self action:@selector(checkButtonAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _checkButton;

@@ -34,7 +34,7 @@ static CGFloat const kDoneButtonTextWitdh = 38.0f;
 - (void)setupViews {
     _backGroudView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     _backGroudView.centerY = self.centerY;
-    _backGroudView.backgroundColor = [UIColor colorWithRed:0.243 green:0.643 blue:0.212 alpha:1.000];
+    _backGroudView.backgroundColor = self.tintColor;
     _backGroudView.layer.cornerRadius = _backGroudView.height/2;
     [self addSubview:_backGroudView];
     
@@ -49,7 +49,7 @@ static CGFloat const kDoneButtonTextWitdh = 38.0f;
     _doneButton.frame = CGRectMake(0, 0, self.width, self.height);
     [_doneButton setTitle:NSLocalizedString(@"确定", nil)
                  forState:UIControlStateNormal];
-    [_doneButton setTitleColor:[UIColor colorWithRed:0.243 green:0.643 blue:0.212 alpha:1.000] forState:UIControlStateNormal];
+    [_doneButton setTitleColor:self.tintColor forState:UIControlStateNormal];
     _doneButton.titleLabel.font = [UIFont systemFontOfSize:15.0f];
     _doneButton.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
     _doneButton.backgroundColor = [UIColor clearColor];

@@ -11,6 +11,7 @@
 #import "UIView+AGIPCPhotoBrowser.h"
 #import "AGImagePickerController.h"
 #import "AGIPCPhotoBrowser.h"
+#import "UIImage+TintColor.h"
 
 @interface ViewController () <AGImagePickerControllerDelegate, AGIPCPhotoBrowserDelegate>
 
@@ -55,6 +56,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == _datasource.count) {
         AGImagePickerController *picker = [[AGImagePickerController alloc] initWithDelegate:self];
+        picker.checkButtonNormalImage = [UIImage imageNamed:@"AGIPC_check_default"];
+        picker.checkButtonSelectedImage = [[UIImage imageNamed:@"AGIPC_check_selected"] imageWithTintColor:self.view.tintColor];
         picker.selection = _datasource;
         picker.maximumNumberOfPhotosToBeSelected = 10;
         [self presentViewController:picker animated:YES completion:nil];

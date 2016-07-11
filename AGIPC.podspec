@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
 
   s.name         = "AGIPC"
 
-  s.version      = "0.0.3"
+  s.version      = "0.0.5"
 
   s.summary      = "pick and preview photos, based on MWPhotoBrowser and AGImagePickerController"
 
