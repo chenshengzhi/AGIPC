@@ -19,7 +19,7 @@
     if (_pickerFlags.delegateNumberOfItemsPerRowForDevice)
     {
         AGDeviceType deviceType = self.deviceType;
-        UIInterfaceOrientation interfaceOrientation = self.interfaceOrientation;
+        UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
         
         if (nil != self.pickerDelegate && [self.pickerDelegate respondsToSelector:@selector(agImagePickerController:numberOfItemsPerRowForDevice:andInterfaceOrientation:)]) {
             return [self.pickerDelegate agImagePickerController:self numberOfItemsPerRowForDevice:deviceType andInterfaceOrientation:interfaceOrientation];
@@ -35,7 +35,7 @@
     
     if (IS_IPAD())
     {
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+        if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation))
         {
             numberOfItemsPerRow = AGIPC_ITEMS_PER_ROW_IPAD_PORTRAIT;
         } else
@@ -44,7 +44,7 @@
         }
     } else
     {
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+        if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation))
         {
             numberOfItemsPerRow = AGIPC_ITEMS_PER_ROW_IPHONE_PORTRAIT;
             

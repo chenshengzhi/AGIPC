@@ -97,7 +97,7 @@
     doneButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem = doneButtonItem;
     
-    lastOrientation = self.interfaceOrientation;
+    lastOrientation = [UIApplication sharedApplication].statusBarOrientation;
     
     [self reloadData];
     
@@ -115,7 +115,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if (lastOrientation != self.interfaceOrientation) {
+    if (lastOrientation != [UIApplication sharedApplication].statusBarOrientation) {
         [self reloadData];
     }
     
@@ -157,7 +157,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    lastOrientation = self.interfaceOrientation;
+    lastOrientation = [UIApplication sharedApplication].statusBarOrientation;
     
     AGIPCPhotoBrowser *browser = [[AGIPCPhotoBrowser alloc] initWithDelegate:self currentIndex:indexPath.row];
     browser.checkButtonNormalImage = self.imagePickerController.checkButtonNormalImage;
