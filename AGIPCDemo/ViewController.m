@@ -57,13 +57,17 @@
     if (indexPath.row == _datasource.count) {
         AGImagePickerController *picker = [[AGImagePickerController alloc] initWithDelegate:self];
         picker.checkButtonNormalImage = [UIImage imageNamed:@"AGIPC_check_default"];
-        picker.checkButtonSelectedImage = [[UIImage imageNamed:@"AGIPC_check_selected"] imageWithTintColor:self.view.tintColor];
+        picker.checkButtonSelectedImage = [[UIImage imageNamed:@"AGIPC_check_selected"] imageWithTintColor:[UIColor redColor]];
         picker.selection = _datasource;
         picker.maximumNumberOfPhotosToBeSelected = 10;
+        picker.view.tintColor = [UIColor redColor];
         [self presentViewController:picker animated:YES completion:nil];
     } else {
         AGIPCPhotoBrowser *browser = [[AGIPCPhotoBrowser alloc] initWithDelegate:self currentIndex:indexPath.row];
         browser.delegate = self;
+        browser.tintColor = [UIColor redColor];
+        browser.checkButtonNormalImage = [UIImage imageNamed:@"AGIPC_check_default"];
+        browser.checkButtonSelectedImage = [[UIImage imageNamed:@"AGIPC_check_selected"] imageWithTintColor:[UIColor redColor]];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:browser];
         [self presentViewController:nav animated:YES completion:nil];
     }

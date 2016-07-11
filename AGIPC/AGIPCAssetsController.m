@@ -163,6 +163,7 @@
     browser.checkButtonNormalImage = self.imagePickerController.checkButtonNormalImage;
     browser.checkButtonSelectedImage = self.imagePickerController.checkButtonSelectedImage;
     browser.delegate = self;
+    browser.tintColor = self.imagePickerController.view.tintColor;
     [self.navigationController pushViewController:browser animated:YES];
 }
 

@@ -21,6 +21,13 @@ static CGFloat const kDoneButtonTextWitdh = 38.0f;
 
 @implementation AGIPCBadgeDoneButton
 
+- (void)setTintColor:(UIColor *)tintColor {
+    [super setTintColor:tintColor];
+
+    _backGroudView.backgroundColor = self.tintColor;
+    [_doneButton setTitleColor:self.tintColor forState:UIControlStateNormal];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -96,7 +103,6 @@ static CGFloat const kDoneButtonTextWitdh = 38.0f;
     self.backGroudView.hidden = YES;
     self.doneButton.adjustsImageWhenDisabled = YES;
 }
-
 
 - (void)addTaget:(id)target action:(SEL)action {
     [self.doneButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];

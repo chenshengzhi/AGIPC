@@ -43,12 +43,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    self.view.tintColor = _tintColor;
+
     [self setupView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
     [super viewWillAppear:animated];
     
     [self reloadData];

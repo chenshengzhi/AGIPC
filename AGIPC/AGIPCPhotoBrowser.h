@@ -34,6 +34,7 @@
 
 @property (nonatomic, strong) UIImage *checkButtonNormalImage;
 @property (nonatomic, strong) UIImage *checkButtonSelectedImage;
+@property (nonatomic, strong) UIColor *tintColor;
 
 - (instancetype)initWithDelegate:(id<AGIPCPhotoBrowserDelegate>)delegate currentIndex:(NSInteger)index;
 
