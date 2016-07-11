@@ -233,6 +233,7 @@
 - (AGIPCBadgeDoneButton *)badgeDoneButton {
     if (nil == _badgeDoneButton) {
         _badgeDoneButton = [[AGIPCBadgeDoneButton alloc] initWithFrame:CGRectZero];
+        _badgeDoneButton.tintColor = _tintColor;
         [_badgeDoneButton addTaget:self action:@selector(badgeDoneButtonAction)];
     }
     return  _badgeDoneButton;
